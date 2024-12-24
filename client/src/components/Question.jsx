@@ -1,6 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { fetchUserImage } from "../services/Api";
 
 const Question = ({ question }) => {
+  const [response, setResponse] = useState(null);
+
+  const userImage = async () => {
+    try {
+      const apiResponse = await fetchUserImage();
+      setResponse(apiResponse);
+      console.log(apiResponse);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    userImage();
+  });
+
   if (!question) {
     return null;
   }
@@ -13,10 +30,8 @@ const Question = ({ question }) => {
           </div>
         </div>
 
-        <span className="shrink-0 inline-flex items-center justify-center size-[38px] rounded-full bg-gray-600">
-          <span className="text-sm font-medium text-white leading-none">
-            AZ
-          </span>
+        <span className="shrink-0 inline-flex items-center justify-center size-[38px]">
+          <img className="rounded-full" src={response} alt="user-image" />
         </span>
       </li>
     </div>

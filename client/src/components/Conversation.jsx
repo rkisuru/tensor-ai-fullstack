@@ -19,6 +19,41 @@ const Conversation = () => {
     }
   };
 
+  const parseResponse = (text) => {
+    const lines = text.split("\n");
+
+    return lines.map((line, index) => {
+      if (line.trim().startsWith("* **")) {
+        const boldText = line.match(/\*\*(.*?)\*\*/)?.[1] || "";
+        const restOfText = line.replace(`* **${boldText}**`, "").trim();
+        return (
+          <li key={index} className="list-disc ml-6">
+            <strong>{boldText}</strong> {restOfText}
+          </li>
+        );
+      } else if (line.includes("**")) {
+        const parts = line.split(/(\*\*.*?\*\*)/);
+        return (
+          <p key={index}>
+            {parts.map((part, i) =>
+              part.startsWith("**") && part.endsWith("**") ? (
+                <strong key={i}>{part.slice(2, -2)}</strong>
+              ) : (
+                part
+              )
+            )}
+          </p>
+        );
+      }
+
+      return (
+        <p key={index} className="text-sm text-gray-800 dark:text-neutral-200">
+          {line} <br />
+        </p>
+      );
+    });
+  };
+
   useEffect(() => {
     const fetchChat = async () => {
       try {
@@ -54,7 +89,7 @@ const Conversation = () => {
       <div className="sm:ms-5">
         <Menu />
       </div>
-      <div className="max-w-4xl mx-auto flex flex-col justify-center">
+      <div className="max-w-4xl mx-auto flex flex-col justify-center my-10">
         <div>
           <li className="ms-auto mx-auto flex justify-end gap-x-2 sm:gap-x-4">
             <div className="grow text-end space-y-3">
@@ -96,9 +131,7 @@ const Conversation = () => {
 
               <div className="grow max-w-[90%] md:max-w-2xl w-full space-y-3">
                 <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-3 dark:bg-neutral-900 dark:border-neutral-700">
-                  <p className="text-sm text-gray-800 dark:text-neutral-200">
-                    {chat.answer}
-                  </p>
+                  {parseResponse(chat.answer)}
                 </div>
 
                 <div className="sm:flex sm:justify-between">

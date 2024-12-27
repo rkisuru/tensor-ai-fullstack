@@ -1,4 +1,5 @@
 import React from "react";
+import logo from "../assets/tensor-logo.png";
 
 const ChatResponse = ({ response }) => {
   if (!response) {
@@ -7,41 +8,55 @@ const ChatResponse = ({ response }) => {
 
   const { candidates, usageMetadata } = response;
 
+  const parseResponse = (text) => {
+    const lines = text.split("\n");
+
+    return lines.map((line, index) => {
+      if (line.trim().startsWith("* **")) {
+        const boldText = line.match(/\*\*(.*?)\*\*/)?.[1] || "";
+        const restOfText = line.replace(`* **${boldText}**`, "").trim();
+        return (
+          <li key={index} className="list-disc ml-6">
+            <strong>{boldText}</strong> {restOfText}
+          </li>
+        );
+      } else if (line.includes("**")) {
+        const parts = line.split(/(\*\*.*?\*\*)/);
+        return (
+          <p key={index}>
+            {parts.map((part, i) =>
+              part.startsWith("**") && part.endsWith("**") ? (
+                <strong key={i}>{part.slice(2, -2)}</strong>
+              ) : (
+                part
+              )
+            )}
+          </p>
+        );
+      }
+      return (
+        <p key={index} className="text-sm text-gray-800 dark:text-neutral-200">
+          {line} <br />
+        </p>
+      );
+    });
+  };
+
   return (
     <div>
       <div className="mt-16 space-y-5 max-w-4xl mx-auto">
         <div className="flex gap-x-2 sm:gap-x-4">
-          <svg
-            className="shrink-0 size-[38px] rounded-full"
-            width="38"
-            height="38"
-            viewBox="0 0 38 38"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect width="38" height="38" rx="6" fill="#2563EB" />
-            <path
-              d="M10 28V18.64C10 13.8683 14.0294 10 19 10C23.9706 10 28 13.8683 28 18.64C28 23.4117 23.9706 27.28 19 27.28H18.25"
-              stroke="white"
-              strokeWidth="1.5"
-            />
-            <path
-              d="M13 28V18.7552C13 15.5104 15.6863 12.88 19 12.88C22.3137 12.88 25 15.5104 25 18.7552C25 22 22.3137 24.6304 19 24.6304H18.25"
-              stroke="white"
-              strokeWidth="1.5"
-            />
-            <ellipse cx="19" cy="18.6554" rx="3.75" ry="3.6" fill="white" />
-          </svg>
+          <img
+            className="shrink-0 size-[40px] mt-[2px] rounded-full"
+            src={logo}
+          />
 
           <div className="grow max-w-[90%] md:max-w-2xl w-full space-y-3">
             <div className="bg-white border border-gray-200 rounded-lg p-4 space-y-3 dark:bg-neutral-900 dark:border-neutral-700">
               {candidates.map((candidate, index) => (
-                <p
-                  key={index}
-                  className="text-sm text-gray-800 dark:text-neutral-200"
-                >
-                  {candidate.content.parts[0].text}
-                </p>
+                <span key={index}>
+                  {parseResponse(candidate.content.parts[0].text)}
+                </span>
               ))}
             </div>
 

@@ -23,8 +23,13 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(config.corsConfigurationSource()))
-                .authorizeHttpRequests(authorize-> authorize.requestMatchers("/api/v1/auth/**").permitAll()
+                .authorizeHttpRequests(authorize-> authorize
                         .anyRequest().authenticated())
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("http://localhost:5173")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID"))
                 .oauth2Login(oauth2-> {
                     oauth2.successHandler(successHandler);
                 })

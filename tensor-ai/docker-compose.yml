@@ -1,0 +1,17 @@
+services:
+  postgres:
+    container_name: tensor_postgres
+    image: postgres:17.0
+    environment:
+      - POSTGRES_USER=${USERNAME}
+      - POSTGRES_PASSWORD=${PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+      - PGDATA=${DATA}
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+
+volumes:
+    postgres:

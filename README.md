@@ -38,15 +38,6 @@ https://github.com/user-attachments/assets/5256aeaa-4b6b-43a2-8867-d26852b3aceb
 - **Gemini Flash 1.5 API**: Provides AI chatbot functionality.
 - **PostgreSQL**: Database for storing user data and conversation history.
 
-## Installation and Setup
-
-### Prerequisites
-Make sure you have the following installed:
-- **Java 17** or higher
-- **Node.js** (LTS version recommended)
-- **Docker** and **Docker Compose**
-- **PostgreSQL**
-
 ### Backend Setup
 1. Clone the repository:
    ```bash

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchUserImage } from "../services/Api";
 import Menu from "./Menu";
+import RingLoader from "react-spinners/RingLoader";
 
 const Conversation = () => {
   const { id } = useParams();
@@ -17,6 +18,12 @@ const Conversation = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const override = {
+    display: "block",
+    margin: "auto",
+    borderColor: "#2563EB",
   };
 
   const parseResponse = (text) => {
@@ -77,11 +84,17 @@ const Conversation = () => {
   }, [id]);
 
   if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (!chat) {
-    return <p>No chat found!</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <RingLoader
+          loading={loading}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+          cssOverride={override}
+          color="#2563EB"
+        />
+      </div>
+    );
   }
 
   return (

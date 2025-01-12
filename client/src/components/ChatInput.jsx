@@ -10,6 +10,10 @@ const ChatInput = ({ onSubmit }) => {
     }
   };
 
+  const newChat = () => {
+    window.location.reload();
+  };
+
   return (
     <div className="mt-16 space-y-5 max-w-4xl mx-auto sticky bottom-0 z-10">
       <form
@@ -19,6 +23,7 @@ const ChatInput = ({ onSubmit }) => {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center mb-3">
             <button
+              onClick={newChat}
               type="button"
               className="inline-flex justify-center items-center gap-x-2 rounded-lg font-medium text-gray-800 hover:text-blue-600 focus:outline-none focus:text-blue-600 text-xs sm:text-sm dark:text-neutral-200 dark:hover:text-blue-500 dark:focus:text-blue-500"
             >

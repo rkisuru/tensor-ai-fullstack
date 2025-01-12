@@ -1,6 +1,7 @@
 import React from "react";
 import github from "../assets/github.png";
 import google from "../assets/google.png";
+import logo from "../assets/tensor-logo.png";
 
 const Login = () => {
   const googleLogin = () => {
@@ -15,8 +16,14 @@ const Login = () => {
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="mt-7 bg-white border border-gray-200 rounded-xl shadow-sm dark:bg-neutral-900 dark:border-neutral-700 w-[400px] h-[500px] mx-auto">
         <div className="p-4 sm:p-7">
+          <img className="block w-16 mx-auto" src={logo} alt="logo" />
+          <div className="text-center mt-5">
+            <h1 className="text-gray-800 text-3xl font-bold dark:text-white">
+              Welcome to <span className="text-blue-800">Tensor-AI</span>
+            </h1>
+          </div>
           <div className="text-center">
-            <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">
+            <h1 className="block text-2xl font-bold text-gray-800 dark:text-white mt-10">
               Sign in
             </h1>
           </div>

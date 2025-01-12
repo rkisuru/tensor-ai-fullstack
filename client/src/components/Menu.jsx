@@ -8,7 +8,6 @@ import { useNavigate } from "react-router";
 import logout from "../assets/logout.png";
 import add from "../assets/add.png";
 import del from "../assets/trash-bin.png";
-import toast from "react-hot-toast";
 
 const Menu = () => {
   const [open, setOpen] = useState(true);
@@ -18,6 +17,8 @@ const Menu = () => {
   const [Menus, setMenus] = useState([]);
 
   const [user, setUser] = useState(null);
+
+  const [delSuccess, setDelSuccess] = useState(null);
 
   const handleLogout = async () => {
     try {
@@ -30,8 +31,12 @@ const Menu = () => {
   const handleDelete = async (id) => {
     try {
       await deleteChat(id);
+      setDelSuccess(true);
     } catch (error) {
       console.error(error);
+      setDelSuccess(false);
+    } finally {
+      setDelSuccess(null);
     }
   };
 
